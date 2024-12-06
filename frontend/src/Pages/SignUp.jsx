@@ -1,38 +1,47 @@
-import React, { useEffect } from "react";
+import React,{useState} from "react";
+import axios from "axios";
 
-function SignUp({ setCurrentPage }) {
-  useEffect(() => {
-    setCurrentPage("signup");
-  }, [setCurrentPage]);
+function SignUp({setCurrentPage}){
+  const [userName, setUserName] = useState('');
+  const [userEmail, setuserEmail] = useState('');
+  const [userPassword, setuserPassword] = useState('');
 
-  return (
+  const handleSubmit=async(e)=>{
+    e.preventDefault()
+    const details = { username: userName, email: userEmail, password: userPassword };
+    try {
+      await axios.post('http://localhost:8080/signup', details)
+    } catch (error) {
+      console.log(error)
+      alert("Error in Registering")
+    }
+  };
+
+  return(
     <div className="main-container">
-      <h2>Sign Up Page</h2>
-      <div className="form-container register-page">
-        <form className="row">
-          <div className="col">
-            <label>Select</label>
-            <input type="file" />
-          </div>
+      <h2>Register page</h2>
+
+      <div className="form-container sign-up-page">
+        <form onSubmit={handleSubmit} className="row">
           <div className="col">
             <label>Username</label>
-            <input type="text" />
+            <input type="text" onChange={(e)=>setUserName(e.target.value)} required />
           </div>
           <div className="col">
             <label>Email</label>
-            <input type="email" />
+            <input type="email" onChange={(e)=>setuserEmail(e.target.value)} required />
           </div>
           <div className="col">
             <label>Password</label>
-            <input type="password" />
+            <input type="password" onChange={(e)=>setuserPassword(e.target.value)} required />
           </div>
           <div className="submit-btn">
-            <button>Sign Up</button>
+            <button type="submit">Sign Up</button>
           </div>
         </form>
       </div>
     </div>
-  );
+  )
 }
 
 export default SignUp;
