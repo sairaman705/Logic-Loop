@@ -1,5 +1,4 @@
 import React,{useState} from "react";
-import from "./SignUp.css";
 import axios from "axios";
 
 function SignUp({setCurrentPage}){
